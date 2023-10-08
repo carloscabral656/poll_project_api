@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('id_type_avaliation');
             $table->foreign('id_type_avaliation')->references('id')->on('type_avaliations');
+            $table->string('value');
+            $table->string('description');
             $table->timestamps();
         });
     }

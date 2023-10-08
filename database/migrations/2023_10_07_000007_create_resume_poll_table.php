@@ -11,13 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('polls_persons', function (Blueprint $table) {
+        Schema::create('resume_poll', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('id_user');
             $table->foreign('id_user')->references('id')->on('users');
             $table->unsignedBigInteger('id_poll');
             $table->foreign('id_poll')->references('id')->on('polls');
-            $table->timestamps();
+            $table->boolean('responded_poll');
+            $table->smallInteger('qty_attempts_poll');
         });
     }
 
