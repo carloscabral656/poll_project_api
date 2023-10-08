@@ -15,7 +15,18 @@ class Poll extends Model
         'begin_at',
         'finish_at'
     ];
-
+    public static $createPollRules = [
+        'title'       => 'required',
+        'description' => 'required',
+        'begin_at'    => 'required',
+        'finish_at'   => 'required'
+    ];
+    public static $updatePollRules = [
+        'title'       => 'required',
+        'description' => 'required',
+        'begin_at'    => 'required',
+        'finish_at'   => 'required'
+    ];    
     public function questions(){
         return $this->hasMany(
             Question::class,
