@@ -11,9 +11,18 @@ class Question extends Model
     public $table = 'questions';
     public $fillable = [
         'id_poll',
+        'id_type_avaliation',
         'statement',
         'order_question',
         'has_comment',
         'status_question'
     ];
+
+    public function alternatives(){
+        return $this->hasMany(
+            Question::class,
+            'id_poll',
+            'id'
+        );
+    }
 }

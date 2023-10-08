@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('id_poll');
             $table->foreign('id_poll')->references('id')->on('polls');
+            $table->unsignedBigInteger('id_type_avaliation');
+            $table->foreign('id_type_avaliation')->references('id')->on('type_avaliations');
             $table->char('statement', 20);
             $table->smallInteger('order_question');
             $table->boolean('has_comment');

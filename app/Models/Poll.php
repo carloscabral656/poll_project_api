@@ -15,4 +15,12 @@ class Poll extends Model
         'begin_at',
         'finish_at'
     ];
+
+    public function questions(){
+        return $this->hasMany(
+            Question::class,
+            'id_poll',
+            'id'
+        );
+    }
 }
