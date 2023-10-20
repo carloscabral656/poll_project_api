@@ -6,6 +6,7 @@ use App\DTO\ApiResponse;
 use App\helpers\StatusCode;
 use App\Services\QuestionsService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class QuestionsController extends Controller
 {
@@ -45,7 +46,24 @@ class QuestionsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            $request->validate(
+                $this->questionService::getModel()::$createQuestionRules
+            );
+            $data = $request->all();
+            $poll = $this->questionService->store($data);
+            return $this->apiResponse
+                        ->setSuccess(true)
+                        ->setContent($poll)
+                        ->setStatusCode(StatusCode::CREATED)
+                        ->create();
+        } catch(ValidationException $v) {
+            return $this->apiResponse
+                        ->setSuccess(false)
+                        ->setContent($v->getMessage())
+                        ->setStatusCode(StatusCode::OK)
+                        ->create();
+        }
     }
 
     /**

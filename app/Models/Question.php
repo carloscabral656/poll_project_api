@@ -17,7 +17,14 @@ class Question extends Model
         'has_comment',
         'status_question'
     ];
-
+    public $createQuestionRules = [
+        'id_poll' => 'required',
+        'id_type_avaliation' => 'required',
+        'statement' => 'required',
+        'order_question' => 'required',
+        'has_comment' => 'required',
+        'status_question' => 'required'
+    ];
     public function alternatives(){
         return $this->hasMany(
             Question::class,
