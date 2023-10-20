@@ -26,7 +26,8 @@ class Poll extends Model
         'description' => 'required',
         'begin_at'    => 'required',
         'finish_at'   => 'required'
-    ];    
+    ];
+    protected $with = ['questions'];    
     public function questions(){
         return $this->hasMany(
             Question::class,
