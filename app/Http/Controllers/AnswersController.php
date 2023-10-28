@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\DTO\ApiResponse;
+use App\helpers\StatusCode;
 use App\Services\AnswersService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class AnswersController extends Controller
@@ -21,7 +23,7 @@ class AnswersController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index() : JsonResponse
     {
         $answers = $this->answersService->getAll();
         return $this->apiResponse
