@@ -14,4 +14,14 @@ class Avaliation extends Model
         'value',
         'description'
     ];
+    public static $createAvaliationRules = [
+        'id_type_avaliation' => 'required',
+        'value' => 'required',
+        'description' => 'required'
+    ];
+    public static $updateAvaliationRules = [
+        'id_type_avaliation' => 'required',
+        'value' => 'required',
+        'description' => 'required'
+    ];
 }
