@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\DTO\ApiResponse;
 use App\helpers\StatusCode;
+use App\Models\Poll;
 use App\Services\PollsService;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
@@ -28,7 +30,7 @@ class PollsController extends Controller
     {
         $polls = $this->pollsService->getAll();
         return $this->apiResponse
-                    ->setSuccess(false)
+                    ->setSuccess(true)
                     ->setContent($polls)
                     ->setStatusCode(StatusCode::OK)
                     ->create();
@@ -52,18 +54,26 @@ class PollsController extends Controller
                 $this->pollsService::getModel()::$createPollRules
             );
             $data = $request->all();
-            $poll = $this->pollsService->store($data);
+            $this->pollsService->store($data);
+            $poll = Poll::create($data);
+            return new JsonResponse(['asdassd' => $poll]);
             return $this->apiResponse
                         ->setSuccess(true)
                         ->setContent($poll)
                         ->setStatusCode(StatusCode::CREATED)
                         ->create();
-        } catch(ValidationException $v) {
+        }catch(ValidationException $v){
             return $this->apiResponse
                         ->setSuccess(false)
                         ->setContent($v->getMessage())
-                        ->setStatusCode(StatusCode::OK)
+                        ->setStatusCode(StatusCode::INTERNAL_SERVER_ERROR)
                         ->create();
+        }catch(Exception $e){
+            return $this->apiResponse
+                ->setSuccess(false)
+                ->setContent($e->getMessage())
+                ->setStatusCode(StatusCode::INTERNAL_SERVER_ERROR)
+                ->create();
         }
     }
 
@@ -108,7 +118,13 @@ class PollsController extends Controller
             return $this->apiResponse
                         ->setSuccess(false)
                         ->setContent($v->getMessage())
-                        ->setStatusCode(StatusCode::OK)
+                        ->setStatusCode(StatusCode::INTERNAL_SERVER_ERROR)
+                        ->create();
+        }catch(Exception $e){
+            return $this->apiResponse
+                        ->setSuccess(false)
+                        ->setContent($e->getMessage())
+                        ->setStatusCode(StatusCode::INTERNAL_SERVER_ERROR)
                         ->create();
         }
     }

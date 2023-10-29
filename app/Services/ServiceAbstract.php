@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Exception;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\QueryException;
@@ -23,11 +24,13 @@ abstract class ServiceAbstract
     public function store(array $data){
         try{
             DB::beginTransaction();
-            $model = $this->model->create($data);
+            $model = $this->model->create($data);  
             DB::commit();
             return $model;
         }catch(QueryException $e){
             DB::rollBack();
+        }catch(Exception $e){
+            throw $e;
         }
     }
 
@@ -45,6 +48,8 @@ abstract class ServiceAbstract
             return $model;
         }catch(QueryException $e){
             DB::rollBack();
+        }catch(Exception $e){
+            throw $e;
         }
     }
 

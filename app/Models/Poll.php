@@ -18,14 +18,12 @@ class Poll extends Model
     public static $createPollRules = [
         'title'       => 'required',
         'description' => 'required',
-        'begin_at'    => 'required',
-        'finish_at'   => 'required'
+        'begin_at'    => 'required'
     ];
     public static $updatePollRules = [
         'title'       => 'required',
         'description' => 'required',
-        'begin_at'    => 'required',
-        'finish_at'   => 'required'
+        'begin_at'    => 'required'
     ];
     protected $with = ['questions'];    
     public function questions(){
