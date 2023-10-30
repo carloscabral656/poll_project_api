@@ -4,34 +4,32 @@ namespace App\Http\Controllers;
 
 use App\DTO\ApiResponse;
 use App\helpers\StatusCode;
-use App\Models\Poll;
-use App\Services\PollsService;
+use App\Services\TypeAvaliationsService;
+use Dotenv\Exception\ValidationException;
 use Exception;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
-class PollsController extends Controller
+class TypeAvaliationsController extends Controller
 {
 
-    private PollsService $pollsService;
-    private ApiResponse  $apiResponse;
+    private TypeAvaliationsService $typeAvaliationsService;
+    private ApiResponse $apiResponse;
 
     public function __construct()
     {
-        $this->pollsService = app(PollsService::class);
+        $this->typeAvaliationsService = app(TypeAvaliationsService::class);
         $this->apiResponse  = app(ApiResponse::class);
     }
 
     /**
      * Display a listing of the resource.
      */
-    public function index() : JsonResponse
+    public function index()
     {
-        $polls = $this->pollsService->getAll();
+        $typeAvaliation = $this->typeAvaliationsService->getAll();
         return $this->apiResponse
-                    ->setSuccess(true)
-                    ->setContent($polls)
+                    ->setSuccess(false)
+                    ->setContent($typeAvaliation)
                     ->setStatusCode(StatusCode::OK)
                     ->create();
     }
@@ -39,43 +37,37 @@ class PollsController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request) : JsonResponse
+    public function store(Request $request)
     {
         try{
             $request->validate(
-                $this->pollsService::getModel()::$createPollRules
+                $this->typeAvaliationsService::getModel()::$createTypeAvaliation
             );
             $data = $request->all();
-            $poll = $this->pollsService->store($data);
+            $typeAvaliation = $this->typeAvaliationsService->store($data);
             return $this->apiResponse
                         ->setSuccess(true)
-                        ->setContent($poll)
+                        ->setContent($typeAvaliation)
                         ->setStatusCode(StatusCode::CREATED)
                         ->create();
-        }catch(ValidationException $v){
+        } catch(ValidationException $v) {
             return $this->apiResponse
                         ->setSuccess(false)
                         ->setContent($v->getMessage())
-                        ->setStatusCode(StatusCode::INTERNAL_SERVER_ERROR)
+                        ->setStatusCode(StatusCode::OK)
                         ->create();
-        }catch(Exception $e){
-            return $this->apiResponse
-                ->setSuccess(false)
-                ->setContent($e->getMessage())
-                ->setStatusCode(StatusCode::INTERNAL_SERVER_ERROR)
-                ->create();
         }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(int $id)
+    public function show(string $id)
     {
-        $poll = $this->pollsService->get($id);
+        $typeAvaliation = $this->typeAvaliationsService->get($id);
         return $this->apiResponse
                     ->setSuccess(true)
-                    ->setContent($poll)
+                    ->setContent($typeAvaliation)
                     ->setStatusCode(StatusCode::OK)
                     ->create();
     }
@@ -83,17 +75,17 @@ class PollsController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, int $id)
+    public function update(Request $request, string $id)
     {
         try{
             $request->validate(
-                $this->pollsService::getModel()::$updatePollRules
+                $this->typeAvaliationsService::getModel()::$updateTypeAvaliation
             );
             $data = $request->all();
-            $poll = $this->pollsService->update($data, $id);
+            $typeAvaliation = $this->typeAvaliationsService->update($data, $id);
             return $this->apiResponse
                         ->setSuccess(true)
-                        ->setContent($poll)
+                        ->setContent($typeAvaliation)
                         ->setStatusCode(StatusCode::OK)
                         ->create();
         } catch(ValidationException $v) {
@@ -114,9 +106,9 @@ class PollsController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(int $id)
+    public function destroy(string $id)
     {
-        $poll = $this->pollsService->delete($id);
+        $typeAvaliation = $this->typeAvaliationsService->delete($id);
         return $this->apiResponse
                     ->setSuccess(true)
                     ->setContent(null)

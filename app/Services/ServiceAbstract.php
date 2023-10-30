@@ -21,6 +21,13 @@ abstract class ServiceAbstract
         return $this->model->all();
     }
 
+    /**
+     * 
+     * @param array $data
+     * 
+     * @return Model $model
+     * @throws Exception
+    */
     public function store(array $data){
         try{
             DB::beginTransaction();

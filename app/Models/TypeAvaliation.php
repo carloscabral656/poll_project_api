@@ -13,4 +13,12 @@ class TypeAvaliation extends Model
         'title',
         'description'
     ];
+    public static $createTypeAvaliation = [
+        'title' => 'required',
+        'description' => 'required'
+    ];
+    public static $updateTypeAvaliation = [
+        'title' => 'required',
+        'description' => 'required'
+    ]; 
 }

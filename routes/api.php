@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\AnswersController;
+use App\Http\Controllers\AvaliationsController;
 use App\Http\Controllers\PollsController;
 use App\Http\Controllers\QuestionsController;
+use App\Models\TypeAvaliation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -18,9 +20,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('/v1')->group(function(){
-    Route::resource('/polls', PollsController::class);
-    Route::resource('/questions', QuestionsController::class);
-    Route::resource('/answers', AnswersController::class);
+    Route::resource('/polls'      , PollsController::class);
+    Route::resource('/questions'  , QuestionsController::class);
+    Route::resource('/type-avaliation', TypeAvaliation::class);
+    Route::resource('/avaliations', AvaliationsController::class);
+    Route::resource('/answers'    , AnswersController::class);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
