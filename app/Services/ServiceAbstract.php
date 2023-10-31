@@ -22,7 +22,6 @@ abstract class ServiceAbstract
     }
 
     /**
-     * 
      * @param array $data
      * 
      * @return Model $model

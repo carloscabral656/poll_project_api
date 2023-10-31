@@ -17,7 +17,7 @@ class Question extends Model
         'has_comment',
         'status_question'
     ];
-    public $createQuestionRules = [
+    public static $createQuestionRules = [
         'id_poll' => 'required',
         'id_type_avaliation' => 'required',
         'statement'       => 'required',

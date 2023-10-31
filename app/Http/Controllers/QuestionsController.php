@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DTO\ApiResponse;
 use App\helpers\StatusCode;
 use App\Services\QuestionsService;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -43,17 +44,23 @@ class QuestionsController extends Controller
                 $this->questionService::getModel()::$createQuestionRules
             );
             $data = $request->all();
-            $poll = $this->questionService->store($data);
+            $question = $this->questionService->store($data);
             return $this->apiResponse
                         ->setSuccess(true)
-                        ->setContent($poll)
+                        ->setContent($question)
                         ->setStatusCode(StatusCode::CREATED)
                         ->create();
-        } catch(ValidationException $v) {
+        }catch(ValidationException $v){
             return $this->apiResponse
                         ->setSuccess(false)
                         ->setContent($v->getMessage())
-                        ->setStatusCode(StatusCode::OK)
+                        ->setStatusCode(StatusCode::INTERNAL_SERVER_ERROR)
+                        ->create();
+        }catch(Exception $e){
+            return $this->apiResponse
+                        ->setSuccess(false)
+                        ->setContent($e->getMessage())
+                        ->setStatusCode(StatusCode::INTERNAL_SERVER_ERROR)
                         ->create();
         }
     }
