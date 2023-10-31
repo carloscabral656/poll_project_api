@@ -35,7 +35,9 @@ abstract class ServiceAbstract
             return $model;
         }catch(QueryException $e){
             DB::rollBack();
+            throw $e;
         }catch(Exception $e){
+            DB::rollBack();
             throw $e;
         }
     }
