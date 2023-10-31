@@ -9,6 +9,7 @@ class TypeAvaliation extends Model
 {
     use HasFactory;
     public $table = 'type_avaliations';
+    public $with = ['avaliations'];
     public $fillable = [
         'title',
         'description'
@@ -21,4 +22,11 @@ class TypeAvaliation extends Model
         'title' => 'required',
         'description' => 'required'
     ]; 
+    public function avaliations(){
+        return $this->hasMany(
+            Avaliation::class,
+            'id_type_avaliation',
+            'id'
+        );
+    }
 }

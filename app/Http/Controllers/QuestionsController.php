@@ -18,7 +18,7 @@ class QuestionsController extends Controller
     public function __construct()
     {
         $this->questionService = app(QuestionsService::class);
-        $this->apiResponse  = app(ApiResponse::class);
+        $this->apiResponse     = app(ApiResponse::class);
     }
 
     /**

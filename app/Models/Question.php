@@ -9,6 +9,7 @@ class Question extends Model
 {
     use HasFactory;
     public $table = 'questions';
+    public $with = ['alternatives'];
     public $fillable = [
         'id_poll',
         'id_type_avaliation',
@@ -18,19 +19,18 @@ class Question extends Model
         'status_question'
     ];
     public static $createQuestionRules = [
-        'id_poll' => 'required',
+        'id_poll'            => 'required',
         'id_type_avaliation' => 'required',
-        'statement'       => 'required',
-        'order_question'  => 'required',
-        'has_comment'     => 'required',
-        'status_question' => 'required'
+        'statement'          => 'required',
+        'order_question'     => 'required',
+        'has_comment'        => 'required',
+        'status_question'    => 'required'
     ];
     public function alternatives(){
-        return $this->hasManyThrough(
-            Avaliation::class,
+        return $this->hasOne(
             TypeAvaliation::class,
-            'id_answer',
-            'id_question'
+            'id',
+            'id_type_avaliation'
         );
     }
     public function answers(){
