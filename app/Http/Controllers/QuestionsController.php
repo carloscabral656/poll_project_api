@@ -70,15 +70,12 @@ class QuestionsController extends Controller
      */
     public function show(string $id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        $question = $this->questionService->get($id);
+        return $this->apiResponse
+                    ->setSuccess(true)
+                    ->setContent($question)
+                    ->setStatusCode(StatusCode::OK)
+                    ->create();
     }
 
     /**
@@ -86,7 +83,30 @@ class QuestionsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try{
+            $request->validate(
+                $this->questionService::getModel()::$updateQuestionRules
+            );
+            $data = $request->all();
+            $question = $this->questionService->update($data, $id);
+            return $this->apiResponse
+                        ->setSuccess(true)
+                        ->setContent($question)
+                        ->setStatusCode(StatusCode::OK)
+                        ->create();
+        } catch(ValidationException $v) {
+            return $this->apiResponse
+                        ->setSuccess(false)
+                        ->setContent($v->getMessage())
+                        ->setStatusCode(StatusCode::INTERNAL_SERVER_ERROR)
+                        ->create();
+        }catch(Exception $e){
+            return $this->apiResponse
+                        ->setSuccess(false)
+                        ->setContent($e->getMessage())
+                        ->setStatusCode(StatusCode::INTERNAL_SERVER_ERROR)
+                        ->create();
+        }
     }
 
     /**
@@ -94,6 +114,11 @@ class QuestionsController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $questions = $this->questionService->delete($id);
+        return $this->apiResponse
+                    ->setSuccess(true)
+                    ->setContent(null)
+                    ->setStatusCode(StatusCode::NO_CONTENT)
+                    ->create();
     }
 }

@@ -26,6 +26,14 @@ class Question extends Model
         'has_comment'        => 'required',
         'status_question'    => 'required'
     ];
+    public static $updateQuestionRules = [
+        'id_poll'            => 'required',
+        'id_type_avaliation' => 'required',
+        'statement'          => 'required',
+        'order_question'     => 'required',
+        'has_comment'        => 'required',
+        'status_question'    => 'required'
+    ];
     public function alternatives(){
         return $this->hasOne(
             TypeAvaliation::class,
