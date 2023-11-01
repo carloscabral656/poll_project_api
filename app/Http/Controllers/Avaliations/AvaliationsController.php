@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Avaliations;
 
 use App\DTO\ApiResponse;
 use App\helpers\StatusCode;
+use App\Http\Controllers\Controller;
 use App\Services\AvaliationsService;
 use Dotenv\Exception\ValidationException;
 use Illuminate\Http\JsonResponse;
