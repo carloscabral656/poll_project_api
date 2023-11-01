@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Questions;
 
 use App\DTO\ApiResponse;
 use App\helpers\StatusCode;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\Questions\DTO\QuestionsDTO;
 use App\Services\QuestionsService;
 use Exception;
 use Illuminate\Http\Request;
@@ -26,10 +28,13 @@ class QuestionsController extends Controller
      */
     public function index()
     {
-        $question = $this->questionService->getAll();
+        $questions = $this->questionService->getAll();
+        $questions = collect($questions)->map(function($q, $k){
+            return (new QuestionsDTO($q))->encrypt();
+        });
         return $this->apiResponse
                     ->setSuccess(false)
-                    ->setContent($question)
+                    ->setContent($questions)
                     ->setStatusCode(StatusCode::OK)
                     ->create();
     }

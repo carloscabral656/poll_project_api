@@ -3,9 +3,8 @@
 use App\Http\Controllers\AnswersController;
 use App\Http\Controllers\AvaliationsController;
 use App\Http\Controllers\PollsController;
-use App\Http\Controllers\QuestionsController;
+use App\Http\Controllers\Questions\QuestionsController;
 use App\Http\Controllers\TypeAvaliationsController;
-use App\Models\TypeAvaliation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
