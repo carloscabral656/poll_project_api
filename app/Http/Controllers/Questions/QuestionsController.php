@@ -29,11 +29,11 @@ class QuestionsController extends Controller
     public function index()
     {
         $questions = $this->questionService->getAll();
-        $questions = collect($questions)->map(function($q, $k){
+        $questions = collect($questions)->map(function($q){
             return (new QuestionsDTO($q))->encrypt();
         });
         return $this->apiResponse
-                    ->setSuccess(false)
+                    ->setSuccess(true)
                     ->setContent($questions)
                     ->setStatusCode(StatusCode::OK)
                     ->create();
