@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\AnswersController;
+use App\Http\Controllers\Answers\AnswersController;
 use App\Http\Controllers\AvaliationsController;
 use App\Http\Controllers\PollsController;
 use App\Http\Controllers\Questions\QuestionsController;

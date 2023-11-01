@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Answers;
 
 use App\DTO\ApiResponse;
 use App\helpers\StatusCode;
+use App\Http\Controllers\Controller;
 use App\Services\AnswersService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
