@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers\Questions\DTO;
 
+use App\Http\Controllers\Avaliations\DTOs\AvaliationsDTO;
+use App\Http\Controllers\TypeAvaliations\DTO\TypeAvaliationDTO;
 use App\interfaces\DTO;
+use App\Models\Avaliation;
 use App\Models\Question;
 
 class QuestionsDTO implements DTO
@@ -16,12 +19,14 @@ class QuestionsDTO implements DTO
 
     public function encrypt() : array {
         return [
-            'id_poll'         => $this->question->id_poll,
-            'statement'       => $this->question->statement,
-            'order_question'  => $this->question->order_question,
-            'has_comment'     => $this->question->has_comment,
-            'status_question' => $this->question->status_question,
-            'alternatives'    => $this->question->alternatives
+            'order_question' => $this->question->order_question,
+            'statement'      => $this->question->statement,
+            'has_comment'    => $this->question->has_comment,
+            'alternatives'   => collect($this->question->alternatives->avaliations)
+                                ->map(function($a){
+                                    return (new AvaliationsDTO($a))->encrypt();
+                                })
+                               
         ];
     }
 }

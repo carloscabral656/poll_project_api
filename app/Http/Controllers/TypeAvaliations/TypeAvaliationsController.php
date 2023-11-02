@@ -1,9 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\TypeAvaliations;
 
 use App\DTO\ApiResponse;
 use App\helpers\StatusCode;
+use App\Http\Controllers\Controller;
 use App\Services\TypeAvaliationsService;
 use Dotenv\Exception\ValidationException;
 use Exception;

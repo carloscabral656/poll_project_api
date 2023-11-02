@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Polls;
 
 use App\DTO\ApiResponse;
 use App\helpers\StatusCode;
-use App\Models\Poll;
+use App\Http\Controllers\Controller;
+use App\Http\Controllers\Polls\DTO\PollsDTO;
 use App\Services\PollsService;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -29,6 +30,9 @@ class PollsController extends Controller
     public function index() : JsonResponse
     {
         $polls = $this->pollsService->getAll();
+        $polls = collect($polls)->map(function($p){
+            return (new PollsDTO($p))->encrypt();
+        });
         return $this->apiResponse
                     ->setSuccess(true)
                     ->setContent($polls)

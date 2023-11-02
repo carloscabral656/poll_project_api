@@ -1,10 +1,10 @@
 <?php
 
 use App\Http\Controllers\Answers\AnswersController;
-use App\Http\Controllers\AvaliationsController;
-use App\Http\Controllers\PollsController;
+use App\Http\Controllers\Avaliations\AvaliationsController;
+use App\Http\Controllers\Polls\PollsController;
 use App\Http\Controllers\Questions\QuestionsController;
-use App\Http\Controllers\TypeAvaliationsController;
+use App\Http\Controllers\TypeAvaliations\TypeAvaliationsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

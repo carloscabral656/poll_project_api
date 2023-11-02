@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\TypeAvaliation\DTO;
+namespace App\Http\Controllers\TypeAvaliations\DTO;
 
 use App\interfaces\DTO;
 use App\Models\TypeAvaliation;
@@ -16,8 +16,7 @@ class TypeAvaliationDTO implements DTO
 
     public function encrypt() : array {
         return [
-            'title' => $this->typeAvaliation->title,
-            'description' => $this->typeAvaliation->description
+            'avaliations' =>  $this->typeAvaliation->avaliations
         ];
     }
 }

@@ -4,5 +4,5 @@ namespace App\interfaces;
 
 interface DTO
 {
-    public function encrypt() : array;
+    public function encrypt();
 }
