@@ -6,7 +6,6 @@ use App\Http\Controllers\Questions\DTO\QuestionsDTO;
 use App\Http\Controllers\TypeAvaliations\DTO\TypeAvaliationDTO;
 use App\interfaces\DTO;
 use App\Models\Poll;
-use App\Models\Question;
 
 class PollsDTO implements DTO
 {
@@ -19,6 +18,7 @@ class PollsDTO implements DTO
 
     public function encrypt() : array {
         return [
+            'id'          => $this->poll->id,
             'title'       => $this->poll->title,
             'description' => $this->poll->description,
             'begin_at'    => $this->poll->begin_at,

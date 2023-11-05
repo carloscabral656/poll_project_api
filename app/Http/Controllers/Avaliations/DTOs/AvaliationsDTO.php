@@ -15,6 +15,9 @@ class AvaliationsDTO implements DTO
     }
 
     public function encrypt(){
-        return $this->avaliation->value;
+        return [
+            'value'       => $this->avaliation->value,
+            'description' => $this->avaliation->description
+        ];
     }
 }

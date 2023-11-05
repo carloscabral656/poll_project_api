@@ -74,9 +74,10 @@ class PollsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(int $id)
+    public function show(int $id) : JsonResponse
     {
         $poll = $this->pollsService->get($id);
+        $poll = (new PollsDTO($poll))->encrypt();
         return $this->apiResponse
                     ->setSuccess(true)
                     ->setContent($poll)
