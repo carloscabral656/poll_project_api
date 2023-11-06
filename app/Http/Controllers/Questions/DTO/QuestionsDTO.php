@@ -19,6 +19,7 @@ class QuestionsDTO implements DTO
 
     public function encrypt() : array {
         return [
+            'id'             => $this->question->id,
             'order_question' => $this->question->order_question,
             'statement'      => $this->question->statement,
             'has_comment'    => $this->question->has_comment,
