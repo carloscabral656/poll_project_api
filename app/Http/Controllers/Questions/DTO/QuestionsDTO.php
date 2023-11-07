@@ -3,9 +3,7 @@
 namespace App\Http\Controllers\Questions\DTO;
 
 use App\Http\Controllers\Avaliations\DTOs\AvaliationsDTO;
-use App\Http\Controllers\TypeAvaliations\DTO\TypeAvaliationDTO;
 use App\interfaces\DTO;
-use App\Models\Avaliation;
 use App\Models\Question;
 
 class QuestionsDTO implements DTO
