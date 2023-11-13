@@ -17,4 +17,18 @@ class Answer extends Model
         'date_answer',
         'comment'
     ];
+    public static $createAnswerRules = [
+        'id_question'   => 'required',
+        'id_user'       => 'required',
+        'id_avaliation' => 'required',
+        'date_answer'   => 'required',
+        'comment'       => 'required'
+    ];
+    public static $updateAnswerRules = [
+        'id_question'   => 'required',
+        'id_user'       => 'required',
+        'id_avaliation' => 'required',
+        'date_answer'   => 'required',
+        'comment'       => 'required'
+    ];
 }

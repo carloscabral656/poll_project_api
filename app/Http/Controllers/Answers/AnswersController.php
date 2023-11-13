@@ -47,7 +47,30 @@ class AnswersController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            $request->validate(
+                $this->answersService::getModel()::$creat
+            );
+            $data = $request->all();
+            $poll = $this->pollsService->store($data);
+            return $this->apiResponse
+                        ->setSuccess(true)
+                        ->setContent($poll)
+                        ->setStatusCode(StatusCode::CREATED)
+                        ->create();
+        }catch(ValidationException $v){
+            return $this->apiResponse
+                        ->setSuccess(false)
+                        ->setContent($v->getMessage())
+                        ->setStatusCode(StatusCode::INTERNAL_SERVER_ERROR)
+                        ->create();
+        }catch(Exception $e){
+            return $this->apiResponse
+                ->setSuccess(false)
+                ->setContent($e->getMessage())
+                ->setStatusCode(StatusCode::INTERNAL_SERVER_ERROR)
+                ->create();
+        }
     }
 
     /**
