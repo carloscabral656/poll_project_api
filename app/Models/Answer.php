@@ -9,21 +9,34 @@ class Answer extends Model
 {
     use HasFactory;
 
+    /**
+     * 
+    */
     public $table = 'answers';
+
+    /**
+     * 
+    */
     public $fillable = [
-        'id_question',
         'id_user',
         'id_avaliation',
         'date_answer',
         'comment'
     ];
+
+    /**
+     * 
+    */
     public static $createAnswerRules = [
-        'id_question'   => 'required',
-        'id_user'       => 'required',
-        'id_avaliation' => 'required',
-        'date_answer'   => 'required',
-        'comment'       => 'required'
+        'idQuestion'   => 'required',
+        'idUser'       => 'required',
+        'answers'      => 'required',
+        'dateAnswer'   => 'required'
     ];
+
+    /**
+     * 
+    */
     public static $updateAnswerRules = [
         'id_question'   => 'required',
         'id_user'       => 'required',
@@ -31,4 +44,16 @@ class Answer extends Model
         'date_answer'   => 'required',
         'comment'       => 'required'
     ];
+
+    /**
+     * 
+    */
+    public function question() {
+        return $this->belongsToMany(
+           Question::class,
+           'question_answer' ,
+           'id_answer',
+           'id_question'
+        );
+    }
 }

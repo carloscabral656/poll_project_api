@@ -13,8 +13,6 @@ return new class extends Migration
     {
         Schema::create('answers', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_question');
-            $table->foreign('id_question')->references('id')->on('questions');
             $table->unsignedBigInteger('id_user');
             $table->foreign('id_user')->references('id')->on('users');
             $table->unsignedBigInteger('id_avaliation');

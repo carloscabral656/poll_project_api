@@ -6,6 +6,8 @@ use App\DTO\ApiResponse;
 use App\helpers\StatusCode;
 use App\Http\Controllers\Controller;
 use App\Services\AnswersService;
+use Dotenv\Exception\ValidationException;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -45,17 +47,17 @@ class AnswersController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request) : JsonResponse
     {
         try{
             $request->validate(
-                $this->answersService::getModel()::$creat
+                $this->answersService::getModel()::$createAnswerRules
             );
             $data = $request->all();
-            $poll = $this->pollsService->store($data);
+            $answer = $this->answersService->store($data);
             return $this->apiResponse
                         ->setSuccess(true)
-                        ->setContent($poll)
+                        ->setContent($answer)
                         ->setStatusCode(StatusCode::CREATED)
                         ->create();
         }catch(ValidationException $v){
@@ -64,7 +66,7 @@ class AnswersController extends Controller
                         ->setContent($v->getMessage())
                         ->setStatusCode(StatusCode::INTERNAL_SERVER_ERROR)
                         ->create();
-        }catch(Exception $e){
+        }catch(Exception  $e){
             return $this->apiResponse
                 ->setSuccess(false)
                 ->setContent($e->getMessage())
