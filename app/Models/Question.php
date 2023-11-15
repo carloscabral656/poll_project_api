@@ -34,6 +34,7 @@ class Question extends Model
         'has_comment'        => 'required',
         'status_question'    => 'required'
     ];
+
     public function alternatives(){
         return $this->hasOne(
             TypeAvaliation::class,
@@ -41,12 +42,13 @@ class Question extends Model
             'id_type_avaliation'
         );
     }
+
     public function answers(){
-        return $this->hasManyThrough(
+        return $this->belongsToMany(
             Answer::class,
-            'question_answer',
-            'id_answer',
-            'id_question'
+            QuestionAnswer::class,
+            'id_question',
+            'id_answer'
         );
     }
 }
