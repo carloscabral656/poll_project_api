@@ -84,7 +84,14 @@ class UserController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $user = $this->userService->get($id);
+        if(!is_null($user))
+            $user = (new UsersDTO($user))->encrypt();
+        return $this->apiResponse
+                    ->setSuccess(true)
+                    ->setContent($user)
+                    ->setStatusCode(StatusCode::OK)
+                    ->create();
     }
 
     /**
@@ -100,7 +107,30 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try{
+            $request->validate(
+                $this->userService::getModel()::$updateUserRules
+            );
+            $data = $request->all();
+            $user = $this->userService->update($data, $id);
+            return $this->apiResponse
+                        ->setSuccess(true)
+                        ->setContent($user)
+                        ->setStatusCode(StatusCode::OK)
+                        ->create();
+        } catch(ValidationException $v) {
+            return $this->apiResponse
+                        ->setSuccess(false)
+                        ->setContent($v->getMessage())
+                        ->setStatusCode(StatusCode::INTERNAL_SERVER_ERROR)
+                        ->create();
+        }catch(Exception $e){
+            return $this->apiResponse
+                        ->setSuccess(false)
+                        ->setContent($e->getMessage())
+                        ->setStatusCode(StatusCode::INTERNAL_SERVER_ERROR)
+                        ->create();
+        }
     }
 
     /**

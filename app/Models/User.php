@@ -26,11 +26,22 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that are mass assignable.
+     * 
      *
-     * @var array<int, string>
+     * 
      */
     public static $createUserRules = [
+        'name'     => 'required',
+        'email'    => 'required',
+        'password' => 'required'
+    ];
+
+    /**
+     * 
+     *
+     * 
+     */
+    public static $updateUserRules = [
         'name'     => 'required',
         'email'    => 'required',
         'password' => 'required'
