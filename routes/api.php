@@ -5,7 +5,7 @@ use App\Http\Controllers\Avaliations\AvaliationsController;
 use App\Http\Controllers\Polls\PollsController;
 use App\Http\Controllers\Questions\QuestionsController;
 use App\Http\Controllers\TypeAvaliations\TypeAvaliationsController;
-use App\Http\Controllers\Users\UsersController;
+use App\Http\Controllers\Users\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -26,7 +26,7 @@ Route::prefix('/v1')->group(function(){
     Route::resource('/type-avaliation', TypeAvaliationsController::class);
     Route::resource('/avaliations'    , AvaliationsController::class);
     Route::resource('/answers'        , AnswersController::class);
-    Route::resource('/users'          , UsersController::class);
+    Route::resource('/users'          , UserController::class);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

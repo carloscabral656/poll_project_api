@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Users;
 
 use App\DTO\ApiResponse;
+use App\helpers\StatusCode;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Users\DTO\UsersDTO;
 use App\Services\UsersService;
+use Dotenv\Exception\ValidationException;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -27,7 +31,7 @@ class UserController extends Controller
     {
         $users = $this->userService->getAll();
         $questions = collect($users)->map(function($q){
-            return (new QuestionsDTO($q))->encrypt();
+            return (new UsersDTO($q))->encrypt();
         });
         return $this->apiResponse
                     ->setSuccess(true)
@@ -49,7 +53,30 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            $request->validate(
+                $this->userService::getModel()::$createUserRules
+            );
+            $data = $request->all();
+            $user = $this->userService->store($data);
+            return $this->apiResponse
+                        ->setSuccess(true)
+                        ->setContent($user)
+                        ->setStatusCode(StatusCode::CREATED)
+                        ->create();
+        }catch(ValidationException $v){
+            return $this->apiResponse
+                        ->setSuccess(false)
+                        ->setContent($v->getMessage())
+                        ->setStatusCode(StatusCode::INTERNAL_SERVER_ERROR)
+                        ->create();
+        }catch(Exception  $e){
+            return $this->apiResponse
+                ->setSuccess(false)
+                ->setContent($e->getMessage())
+                ->setStatusCode(StatusCode::INTERNAL_SERVER_ERROR)
+                ->create();
+        }
     }
 
     /**
