@@ -138,6 +138,11 @@ class UserController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $user = $this->userService->delete($id);
+        return $this->apiResponse
+                    ->setSuccess(true)
+                    ->setContent(null)
+                    ->setStatusCode(StatusCode::NO_CONTENT)
+                    ->create();
     }
 }
