@@ -61,14 +61,19 @@ abstract class ServiceAbstract
         }
     }
 
-    public function delete(int $id) {
+    public function delete(int $id){
         try{
             DB::beginTransaction();
-            $model = $this->model->destroy($id);
+            $model = $this->model->find($id);
+            $deleted = $model->delete();
             DB::commit();
-            return $model;
+            return $deleted;
         }catch(QueryException $e){
             DB::rollBack();
+            throw $e;
+        }catch(Exception $e){
+            DB::rollBack();
+            throw $e;
         }
     }
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Answers;
 
 use App\DTO\ApiResponse;
 use App\helpers\StatusCode;
+use App\Http\Controllers\Answers\DTO\AnswersDTO;
 use App\Http\Controllers\Controller;
 use App\Services\AnswersService;
 use Dotenv\Exception\ValidationException;
@@ -34,14 +35,6 @@ class AnswersController extends Controller
                     ->setContent($answers)
                     ->setStatusCode(StatusCode::OK)
                     ->create();
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -80,15 +73,13 @@ class AnswersController extends Controller
      */
     public function show(string $id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        $answer = $this->answersService->get((int) $id);
+        $answer = (new AnswersDTO($answer))->encrypt();
+        return $this->apiResponse
+                        ->setSuccess(true)
+                        ->setContent($answer)
+                        ->setStatusCode(StatusCode::OK)
+                        ->create();
     }
 
     /**
@@ -96,7 +87,7 @@ class AnswersController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        //                                      
     }
 
     /**
@@ -104,6 +95,16 @@ class AnswersController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        try{
+            $answer = $this->answersService->delete((int) $id);
+            return $answer;
+            return $this->apiResponse
+                        ->setSuccess(true)
+                        ->setContent(null)
+                        ->setStatusCode(StatusCode::NO_CONTENT)
+                        ->create();
+        }catch(Exception $e){
+            return $e->getMessage();
+        }
     }
 }

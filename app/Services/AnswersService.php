@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Answer;
 use App\Models\Question;
+use App\Models\QuestionAnswer;
 use DateTime;
 use Exception;
 use Illuminate\Database\QueryException;
@@ -48,7 +49,7 @@ class AnswersService extends ServiceAbstract
                 ];
                 $answers[] = $this->getModel()->create($answer)->id; 
             }
-            //return $answers;
+
             // Finding question to sync with answer
             $question = $this->questionsService->get((int) $data['idQuestion']);
             $question->answers()->sync($answers);
@@ -62,5 +63,20 @@ class AnswersService extends ServiceAbstract
             DB::rollBack();
             throw $e;
         }
+    }
+
+    /**
+     * Override delete
+    */
+    public function delete(int $idAnswer)
+    {
+        // Delete in intermediate table
+        $idQuestion = QuestionAnswer::where(['id_answer' => $idAnswer])->first('id_question')->id_question;
+        $question = $this->questionsService->get((int) $idQuestion);
+        $question->answers()->detach($idAnswer);
+
+        // Delete in Answers Table
+        $answer = $this->get($idAnswer);
+        $answer->delete();
     }
 }
