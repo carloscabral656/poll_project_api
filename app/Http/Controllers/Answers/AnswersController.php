@@ -97,7 +97,6 @@ class AnswersController extends Controller
     {
         try{
             $answer = $this->answersService->delete((int) $id);
-            return $answer;
             return $this->apiResponse
                         ->setSuccess(true)
                         ->setContent(null)

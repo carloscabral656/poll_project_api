@@ -70,13 +70,16 @@ class AnswersService extends ServiceAbstract
     */
     public function delete(int $idAnswer)
     {
-        // Delete in intermediate table
-        $idQuestion = QuestionAnswer::where(['id_answer' => $idAnswer])->first('id_question')->id_question;
-        $question = $this->questionsService->get((int) $idQuestion);
-        $question->answers()->detach($idAnswer);
-
-        // Delete in Answers Table
-        $answer = $this->get($idAnswer);
-        $answer->delete();
+        try{
+            DB::beginTransaction();
+            $answer = $this->get($idAnswer);
+            $question = $answer->question()->first();
+            $question->answers()->detach($idAnswer);
+            $answer->delete();
+            DB::commit();
+        }catch(Exception $e){
+            DB::rollBack();
+            throw $e;
+        }
     }
 }

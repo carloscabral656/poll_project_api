@@ -51,7 +51,7 @@ class Answer extends Model
     public function question() {
         return $this->belongsToMany(
            Question::class,
-           'question_answer' ,
+           QuestionAnswer::class ,
            'id_answer',
            'id_question'
         );
