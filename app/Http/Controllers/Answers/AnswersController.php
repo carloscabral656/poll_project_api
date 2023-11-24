@@ -21,7 +21,7 @@ class AnswersController extends Controller
     public function __construct()
     {
         $this->answersService = app(AnswersService::class);
-        $this->apiResponse  = app(ApiResponse::class);
+        $this->apiResponse = app(ApiResponse::class);
     }
 
     /**
@@ -47,6 +47,7 @@ class AnswersController extends Controller
                 $this->answersService::getModel()::$createAnswerRules
             );
             $data = $request->all();
+            // TODO: We must receive more than one answer.
             $answer = $this->answersService->store($data);
             return $this->apiResponse
                         ->setSuccess(true)
