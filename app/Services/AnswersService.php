@@ -38,25 +38,23 @@ class AnswersService extends ServiceAbstract
             // Getting data from JSON request
             $idUser = $data['id_user'];
             $dateAnswer = $data['date_answer'];
-            $questions = $data['questions'];
-            
+            $answers = $data['answers'];
+            $insertedAnswers = [];
             // Insert process
-            $answers = [];
-            foreach($questions as $question){
-                foreach($question->answers as $answer){
+            foreach($answers as $answer){
+                foreach($answers->choosen_alternatives as $alternative){
                     $answer = [
-                        'id_user'       => $idUser, //TODO: Create user after this
-                        'id_avaliation' => $answer,
+                        'id_user'       => $idUser, 
+                        'id_avaliation' => $alternative,
                         'date_answer'   => $dateAnswer,
-                        'comment'       => $question->comment
+                        'comment'       => $answer->comment
                     ];
-                    $answers[] = $this->getModel()->create($answer)->id;    
+                    $insertedAnswers[] = $this->getModel()->create($answer)->id;    
                 }
                 // Finding question to sync with answer
-                $question = $this->questionsService->get((int) $question->id_question);
-                $question->answers()->sync($answers);
+                $question = $this->questionsService->get((int) $answer->id_question);
+                $question->answers()->sync($insertedAnswers);
             }
-
             DB::commit();
             return $question;
         }catch(QueryException $e){
