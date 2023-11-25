@@ -3,9 +3,6 @@
 namespace App\Services;
 
 use App\Models\Answer;
-use App\Models\Question;
-use App\Models\QuestionAnswer;
-use DateTime;
 use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\DB;
