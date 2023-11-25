@@ -28,10 +28,10 @@ class Answer extends Model
      * 
     */
     public static $createAnswerRules = [
-        'idQuestion'   => 'required',
-        'idUser'       => 'required',
-        'answers'      => 'required',
-        'dateAnswer'   => 'required'
+        'id_question'   => 'required',
+        'id_user'       => 'required',
+        'answers'       => 'required',
+        'date_answer'   => 'required'
     ];
 
     /**
