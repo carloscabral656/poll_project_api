@@ -44,7 +44,11 @@ class AnswersController extends Controller
     {
         try{
             $request->validate(
-                $this->answersService::getModel()::$createAnswerRules
+                [
+                    'id_user'       => 'required',
+                    'answers'       => 'required',
+                    'date_answer'   => 'required'
+                ]
             );
             $data = $request->all();
             // TODO: We must receive more than one answer.

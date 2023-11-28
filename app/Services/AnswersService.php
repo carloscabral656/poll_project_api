@@ -42,19 +42,20 @@ class AnswersService extends ServiceAbstract
             $insertedAnswers = [];
             // Insert process
             foreach($answers as $answer){
-                foreach($answers->choosen_alternatives as $alternative){
-                    $answer = [
+                foreach($answer['choosen_alternatives'] as $alternative){
+                    $insetAnswer = [
                         'id_user'       => $idUser, 
                         'id_avaliation' => $alternative,
                         'date_answer'   => $dateAnswer,
-                        'comment'       => $answer->comment
+                        'comment'       => $answer['comment']
                     ];
-                    $insertedAnswers[] = $this->getModel()->create($answer)->id;    
+                    $insertedAnswers[] = $this->getModel()->create($insetAnswer)->id;    
                 }
                 // Finding question to sync with answer
-                $question = $this->questionsService->get((int) $answer->id_question);
+                $question = $this->questionsService->get((int) $answer['id_question']);
                 $question->answers()->sync($insertedAnswers);
             }
+
             DB::commit();
             return $question;
         }catch(QueryException $e){
